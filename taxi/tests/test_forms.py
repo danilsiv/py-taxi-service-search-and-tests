@@ -18,7 +18,7 @@ class FormsTests(TestCase):
         self.assertEqual(form.cleaned_data, form_data)
 
     def test_driver_update_license_form(self) -> None:
-        form_data = {"license_number":"DDD00000"}
+        form_data = {"license_number": "DDD00000"}
         form = DriverLicenseUpdateForm(data=form_data)
         self.assertTrue(form.is_valid())
         self.assertEqual(form.cleaned_data, form_data)
