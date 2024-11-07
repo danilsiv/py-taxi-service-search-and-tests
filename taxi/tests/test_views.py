@@ -99,7 +99,6 @@ class SuccessResponseTest(TestCase):
 
 class ManufacturerTests(TestCase):
     def setUp(self) -> None:
-        self.client = Client()
         self.url_manufacturer_list = reverse("taxi:manufacturer-list")
         self.user = get_user_model().objects.create_user(
             username="user",
@@ -143,7 +142,6 @@ class ManufacturerTests(TestCase):
 
 class DriverTests(TestCase):
     def setUp(self) -> None:
-        self.client = Client()
         self.url_driver_list = reverse("taxi:driver-list")
         self.user1 = get_user_model().objects.create_user(
             username="first_user",
