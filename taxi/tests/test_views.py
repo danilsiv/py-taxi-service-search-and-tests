@@ -51,6 +51,52 @@ class LoginRequiredTest(TestCase):
             self.assertNotEqual(response.status_code, 200)
 
 
+class SuccessResponseTest(TestCase):
+    def setUp(self) -> None:
+        manufacturer = Manufacturer.objects.create(
+            name="test name",
+            country="test country"
+        )
+        self.user = get_user_model().objects.create_user(
+            username="test_user",
+            password="test123user"
+        )
+        Car.objects.create(
+            model="test model",
+            manufacturer=manufacturer
+        )
+        self.client.force_login(self.user)
+
+    def test_main_pages(self) -> None:
+        urls = (
+            "taxi:index",
+            "taxi:manufacturer-list",
+            "taxi:manufacturer-create",
+            "taxi:car-list",
+            "taxi:car-create",
+            "taxi:driver-list",
+            "taxi:driver-create",
+        )
+        for url in urls:
+            response = self.client.get(reverse(url))
+            self.assertEqual(response.status_code, 200)
+
+    def test_pages_with_pk(self) -> None:
+        urls = (
+            "taxi:manufacturer-update",
+            "taxi:manufacturer-delete",
+            "taxi:car-detail",
+            "taxi:car-update",
+            "taxi:car-delete",
+            "taxi:driver-detail",
+            "taxi:driver-update",
+            "taxi:driver-delete",
+        )
+        for url in urls:
+            response = self.client.get(reverse(url, args=[1]))
+            self.assertEqual(response.status_code, 200)
+
+
 class ManufacturerTests(TestCase):
     def setUp(self) -> None:
         self.client = Client()
